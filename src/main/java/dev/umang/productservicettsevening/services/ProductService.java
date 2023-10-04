@@ -1,18 +1,17 @@
 package dev.umang.productservicettsevening.services;
 
 import dev.umang.productservicettsevening.dtos.ProductDto;
-import dev.umang.productservicettsevening.modals.Category;
 import dev.umang.productservicettsevening.modals.Product;
-import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ProductService {
 
     List<Product> getAllProducts();
 
 
-    Product getSingleProduct( Long productId);
+    Optional<Product> getSingleProduct(Long productId);
 
 
     Product addNewProduct(ProductDto product);
@@ -20,8 +19,10 @@ public interface ProductService {
 
     Product updateProduct( Long productId , Product product);
 
+    Product replaceProduct( Long productId , Product product);
 
-    Boolean deleteProduct( Long productId);
+
+    Product deleteProduct(Long productId);
 
 
 }

@@ -1,12 +1,13 @@
 package dev.umang.productservicettsevening.services;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import dev.umang.productservicettsevening.modals.Product;
+
+import java.util.List;
 
 public interface CategoryService {
 
-    String getAllCategories();
+    List<String> getAllCategories();
 
 
-    String getProductsInCategory(Long categoryId);
+    List<Product> getProductsInCategory(String categoryId);
 }
