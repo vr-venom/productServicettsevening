@@ -6,6 +6,7 @@ import dev.umang.productservicettsevening.dtos.ProductDto;
 import dev.umang.productservicettsevening.exceptions.NotFoundException;
 import dev.umang.productservicettsevening.modals.Category;
 import dev.umang.productservicettsevening.modals.Product;
+import dev.umang.productservicettsevening.repositories.ProductRepository;
 import dev.umang.productservicettsevening.services.ProductService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,9 +21,12 @@ import java.util.Optional;
 @RequestMapping("/products")
 public class ProductController {
     private final ProductService productService;
-    public ProductController ( ProductService productService){
+    private ProductRepository productRepository;
+    public ProductController ( ProductService productService, ProductRepository productRepository){
         this.productService = productService;
+        this.productRepository = productRepository;
     }
+
     @GetMapping("")
     public List<Product> getAllProducts(){
         return productService.getAllProducts();
@@ -48,7 +52,13 @@ public class ProductController {
 
     @PostMapping("")
     public ResponseEntity<Product> addNewProduct(@RequestBody ProductDto product){
-        Product newProduct = productService.addNewProduct(product);
+        //Product newProduct = productService.addNewProduct(product);
+        Product newProduct = new Product();
+        newProduct.setDescription(product.getDescription());
+        newProduct.setImgURL(product.getImage());
+        newProduct.setTitle(product.getTitle());
+        newProduct.setPrice(product.getPrice());
+        newProduct=productRepository.save(newProduct);
         ResponseEntity<Product> response = new ResponseEntity<>(newProduct, HttpStatus.OK);
         return response;
 
