@@ -12,9 +12,10 @@ import lombok.Setter;
         name = "user_type",
         discriminatorType = DiscriminatorType.INTEGER
 )
+@DiscriminatorValue("0")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String email;
     private String password;
