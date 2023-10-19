@@ -1,7 +1,7 @@
 package dev.umang.productservicettsevening.services;
 
 import dev.umang.productservicettsevening.dtos.ProductDto;
-import dev.umang.productservicettsevening.modals.Product;
+import dev.umang.productservicettsevening.models.Product;
 
 import java.util.List;
 import java.util.Optional;

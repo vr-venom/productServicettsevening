@@ -1,4 +1,4 @@
-package dev.umang.productservicettsevening.modals;
+package dev.umang.productservicettsevening.models;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -16,7 +16,7 @@ public class Product extends BaseModel {
     private String title;
     private double price;
     private String description;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private  Category category;
     private String imgURL;
 }

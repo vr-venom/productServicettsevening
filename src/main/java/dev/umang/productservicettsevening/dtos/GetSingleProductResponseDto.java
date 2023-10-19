@@ -1,6 +1,6 @@
 package dev.umang.productservicettsevening.dtos;
 
-import dev.umang.productservicettsevening.modals.Product;
+import dev.umang.productservicettsevening.models.Product;
 import lombok.Getter;
 import lombok.Setter;
 

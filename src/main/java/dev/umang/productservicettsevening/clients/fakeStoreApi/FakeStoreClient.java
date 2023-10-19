@@ -1,7 +1,7 @@
 package dev.umang.productservicettsevening.clients.fakeStoreApi;
 
 import dev.umang.productservicettsevening.dtos.ProductDto;
-import dev.umang.productservicettsevening.modals.Product;
+import dev.umang.productservicettsevening.models.Product;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +15,6 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 @Component
 public class FakeStoreClient {

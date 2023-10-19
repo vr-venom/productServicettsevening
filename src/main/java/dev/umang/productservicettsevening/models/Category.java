@@ -1,5 +1,7 @@
-package dev.umang.productservicettsevening.modals;
+package dev.umang.productservicettsevening.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
@@ -16,6 +18,7 @@ import java.util.List;
 public class Category extends BaseModel  {
     private String name;
     private  String description;
+    @JsonIgnore
     @OneToMany(mappedBy = "category")
     private List<Product> products;
 }

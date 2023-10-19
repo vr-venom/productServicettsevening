@@ -1,10 +1,9 @@
 package dev.umang.productservicettsevening.services;
 
 import dev.umang.productservicettsevening.clients.fakeStoreApi.CategoryClient;
-import dev.umang.productservicettsevening.clients.fakeStoreApi.FakeStoreCategoryDto;
 import dev.umang.productservicettsevening.clients.fakeStoreApi.FakeStoreProductDto;
-import dev.umang.productservicettsevening.modals.Category;
-import dev.umang.productservicettsevening.modals.Product;
+import dev.umang.productservicettsevening.models.Category;
+import dev.umang.productservicettsevening.models.Product;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Service;
 
@@ -33,7 +32,7 @@ public class FakeStoreCategoryServiceImpl implements CategoryService{
         this.categoryClient = categoryClient;
     }
     @Override
-    public List<String> getAllCategories() {
+    public List<Category> getAllCategories() {
         //List<CategoryDto> categoryDtos =
         return categoryClient.getAllCategories();
     }
@@ -46,6 +45,6 @@ public class FakeStoreCategoryServiceImpl implements CategoryService{
         for (FakeStoreProductDto productDto:fakeStoreProductDtoList){
             answer.add(convertFakeStoreProductDtoToProduct(productDto));
         }
-        return answer;
+        return null;
     }
 }

@@ -1,13 +1,13 @@
 package dev.umang.productservicettsevening.controllers;
 
-import dev.umang.productservicettsevening.dtos.ErrorResponseDto;
-import dev.umang.productservicettsevening.dtos.GetSingleProductResponseDto;
 import dev.umang.productservicettsevening.dtos.ProductDto;
 import dev.umang.productservicettsevening.exceptions.NotFoundException;
-import dev.umang.productservicettsevening.modals.Category;
-import dev.umang.productservicettsevening.modals.Product;
+import dev.umang.productservicettsevening.models.Category;
+import dev.umang.productservicettsevening.models.Product;
 import dev.umang.productservicettsevening.repositories.ProductRepository;
 import dev.umang.productservicettsevening.services.ProductService;
+import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
@@ -20,9 +20,9 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/products")
 public class ProductController {
-    private final ProductService productService;
+    private ProductService productService;
     private ProductRepository productRepository;
-    public ProductController ( ProductService productService, ProductRepository productRepository){
+    public ProductController (@Qualifier("selfProductService") ProductService productService, ProductRepository productRepository){
         this.productService = productService;
         this.productRepository = productRepository;
     }
@@ -52,13 +52,8 @@ public class ProductController {
 
     @PostMapping("")
     public ResponseEntity<Product> addNewProduct(@RequestBody ProductDto product){
-        //Product newProduct = productService.addNewProduct(product);
-        Product newProduct = new Product();
-        newProduct.setDescription(product.getDescription());
-        newProduct.setImgURL(product.getImage());
-        newProduct.setTitle(product.getTitle());
-        newProduct.setPrice(product.getPrice());
-        newProduct=productRepository.save(newProduct);
+        Product newProduct = productService.addNewProduct(product);
+
         ResponseEntity<Product> response = new ResponseEntity<>(newProduct, HttpStatus.OK);
         return response;
 
@@ -73,8 +68,8 @@ public class ProductController {
         Category category = new Category();
         category.setName(productDto.getCategory());
         product.setCategory(category);
-        product.setDescription(product.getDescription());
-        product.setImgURL(product.getImgURL());
+        product.setDescription(productDto.getDescription());
+        product.setImgURL(productDto.getImage());
 
         return productService.updateProduct(productId,product);
     }
@@ -87,14 +82,14 @@ public class ProductController {
         Category category = new Category();
         category.setName(productDto.getCategory());
         product.setCategory(category);
-        product.setDescription(product.getDescription());
-        product.setImgURL(product.getImgURL());
+        product.setDescription(productDto.getDescription());
+        product.setImgURL(productDto.getImage());
 
         return productService.updateProduct(productId,product);
     }
 
     @DeleteMapping("/{productId}")
-    public Product deleteProduct(@PathVariable("productId") Long productId, @RequestBody ProductDto productDto){
+    public Product deleteProduct(@PathVariable("productId") Long productId){
         return productService.deleteProduct(productId);
     }
 

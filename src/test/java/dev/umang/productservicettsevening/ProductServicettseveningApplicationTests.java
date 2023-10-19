@@ -23,17 +23,19 @@ class ProductServicettseveningApplicationTests {
     }
     @Test
     void testDifferentInheritance(){
-        User user = new User();
-        user.setEmail("umang@tst.com");
-        user.setPassword("password");
-        userRepository.save(user);
+        for(int i =1; i<=5; i++) {
+            User user = new User();
+            user.setEmail("user"+i+"@tst.com");
+            user.setPassword("password");
+            userRepository.save(user);
 
-        Mentor mentor = new Mentor();
-        mentor.setEmail("aman@tst.com");
-        mentor.setPassword("password");
-        mentor.setNumberOfSessions(4);
-        mentor.setNumberOfMentees(50);
-        mentorRepository.save(mentor);
+            Mentor mentor = new Mentor();
+            mentor.setEmail("mentor"+i+"@tst.com");
+            mentor.setPassword("password");
+            mentor.setNumberOfSessions(2);
+            mentor.setNumberOfMentees(500);
+            mentorRepository.save(mentor);
+        }
 
 
     }
