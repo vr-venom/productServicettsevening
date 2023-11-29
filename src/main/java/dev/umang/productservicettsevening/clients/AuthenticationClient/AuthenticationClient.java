@@ -31,8 +31,8 @@ public class AuthenticationClient {
         request.setUserId(userId);
 
         ResponseEntity<ValidateTokenResponseDtos> l = restTemplate.postForEntity(
-                "https://localohost:8080/auth/validate",
-                token,
+                "http://localhost:9000/auth/validate",
+                request,
                 ValidateTokenResponseDtos.class
 
         );

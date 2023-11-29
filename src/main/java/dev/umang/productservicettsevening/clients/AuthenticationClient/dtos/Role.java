@@ -1,13 +1,12 @@
 package dev.umang.productservicettsevening.clients.AuthenticationClient.dtos;
 
-
+import jakarta.persistence.Entity;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class ValidateTokenResponseDtos {
-    private UserDto userDto;
-    private SessionStatus sessionStatus;
 
+public class Role {
+    private String name;
 }

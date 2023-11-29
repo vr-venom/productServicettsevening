@@ -1,5 +1,9 @@
 package dev.umang.productservicettsevening.controllers;
 
+import dev.umang.productservicettsevening.clients.AuthenticationClient.AuthenticationClient;
+import dev.umang.productservicettsevening.clients.AuthenticationClient.dtos.Role;
+import dev.umang.productservicettsevening.clients.AuthenticationClient.dtos.SessionStatus;
+import dev.umang.productservicettsevening.clients.AuthenticationClient.dtos.ValidateTokenResponseDtos;
 import dev.umang.productservicettsevening.dtos.ProductDto;
 import dev.umang.productservicettsevening.exceptions.NotFoundException;
 import dev.umang.productservicettsevening.models.Category;
@@ -23,16 +27,38 @@ import java.util.Optional;
 public class ProductController {
     private ProductService productService;
     private ProductRepository productRepository;
-    public ProductController (@Qualifier("selfProductService") ProductService productService, ProductRepository productRepository){
+    private AuthenticationClient authenticationClient;
+    public ProductController (@Qualifier("selfProductService") ProductService productService, ProductRepository productRepository,AuthenticationClient authenticationClient){
         this.productService = productService;
         this.productRepository = productRepository;
+        this.authenticationClient = authenticationClient;
     }
 
     @GetMapping("")
-    public ResponseEntity<List<Product>> getAllProducts(@Nullable @RequestHeader("AUTH_TOKEN") String token){
-        if(token==null){
-            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+    public ResponseEntity<List<Product>> getAllProducts(@Nullable @RequestHeader("AUTH_TOKEN") String token,
+                                                        @Nullable @RequestHeader("USER_ID") Long userId){
+        //if token is null or userId is null then return unauthorized
+        if(token==null ||  userId==null){
+            return new ResponseEntity<>( HttpStatus.UNAUTHORIZED);
         }
+
+        ValidateTokenResponseDtos response = authenticationClient.validate(token,userId);
+
+        //if token is invalid then return unauthorized
+        if(response.getSessionStatus().equals(SessionStatus.INVALID)){
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+
+        boolean isUserAdmin = false;
+        for(Role role: response.getUserDto().getRoles()){
+            if(role.getName().equals("ADMIN")){
+                isUserAdmin = true;
+            }
+        }
+        if(!isUserAdmin){
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+
         return new ResponseEntity<>(productService.getAllProducts(), HttpStatus.OK);
     }
 
