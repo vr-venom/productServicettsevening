@@ -37,27 +37,27 @@ public class ProductController {
     @GetMapping("")
     public ResponseEntity<List<Product>> getAllProducts(@Nullable @RequestHeader("AUTH_TOKEN") String token,
                                                         @Nullable @RequestHeader("USER_ID") Long userId){
-        //if token is null or userId is null then return unauthorized
-        if(token==null ||  userId==null){
-            return new ResponseEntity<>( HttpStatus.UNAUTHORIZED);
-        }
-
-        ValidateTokenResponseDtos response = authenticationClient.validate(token,userId);
-
-        //if token is invalid then return unauthorized
-        if(response.getSessionStatus().equals(SessionStatus.INVALID)){
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        }
-
-        boolean isUserAdmin = false;
-        for(Role role: response.getUserDto().getRoles()){
-            if(role.getName().equals("ADMIN")){
-                isUserAdmin = true;
-            }
-        }
-        if(!isUserAdmin){
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        }
+//        //if token is null or userId is null then return unauthorized
+//        if(token==null ||  userId==null){
+//            return new ResponseEntity<>( HttpStatus.UNAUTHORIZED);
+//        }
+//
+//        ValidateTokenResponseDtos response = authenticationClient.validate(token,userId);
+//
+//        //if token is invalid then return unauthorized
+//        if(response.getSessionStatus().equals(SessionStatus.INVALID)){
+//            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+//        }
+//
+//        boolean isUserAdmin = false;
+//        for(Role role: response.getUserDto().getRoles()){
+//            if(role.getName().equals("ADMIN")){
+//                isUserAdmin = true;
+//            }
+//        }
+//        if(!isUserAdmin){
+//            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+//        }
 
         return new ResponseEntity<>(productService.getAllProducts(), HttpStatus.OK);
     }
